@@ -1,2 +1,5 @@
 Firearm_classifier/
 19890.pdf
+Data/
+alexnet_weights.h5
+__pycache__/

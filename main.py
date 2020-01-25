@@ -1,4 +1,5 @@
 from alexnet import alexnet_model
-from keras.datasets
+from alexnet import freeze_layer
 
-alexnet_model(n_classes=2,weights = 'ImageNet')
+
+model = alexnet_model(n_classes=2,freeze = [1,1,1,1,1,1,1,1,1])

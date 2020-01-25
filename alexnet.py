@@ -21,72 +21,76 @@ from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 
 
-def freeze_layer(layer) : 
-    layer.trainable = False
+def freeze_layer(layer,fvalue) : 
+      
+    if(fvalue):
+        layer.trainable = False
+        
     return layer
 
-
 def alexnet_model(img_shape=(224, 224, 3), n_classes=10, l2_reg=0.,
-	weights=None,freeze = []):
+	weights=None,freeze = [0,0,0,0,0,0,0,0,0]):
 
 	# Initialize model
 	alexnet = Sequential()
+    
 
 	# Layer 1
-	alexnet.add(Conv2D(96, (11, 11), input_shape=img_shape,
-		padding='same', kernel_regularizer=l2(l2_reg)))
+	alexnet.add(freeze_layer(Conv2D(96, (11, 11), input_shape=img_shape,
+		padding='same', kernel_regularizer=l2(l2_reg)),fvalue = freeze[1]))
     
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[1]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(MaxPooling2D(pool_size=(2, 2)))
 
-	# Layer 2
-	alexnet.add(Conv2D(256, (5, 5), padding='same'))
-	alexnet.add(BatchNormalization())
+	# Layer 2 
+	alexnet.add(freeze_layer(Conv2D(256, (5, 5), padding='same'),fvalue = freeze[2] ))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[2]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(MaxPooling2D(pool_size=(2, 2)))
 
 	# Layer 3
 	alexnet.add(ZeroPadding2D((1, 1)))
-	alexnet.add(Conv2D(512, (3, 3), padding='same'))
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(Conv2D(512, (3, 3), padding='same'),fvalue = freeze[3]))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[3]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(MaxPooling2D(pool_size=(2, 2)))
 
 	# Layer 4
 	alexnet.add(ZeroPadding2D((1, 1)))
-	alexnet.add(Conv2D(1024, (3, 3), padding='same'))
+	alexnet.add(freeze_layer((Conv2D(1024, (3, 3), padding='same')),fvalue = freeze[4]))
 	alexnet.add(BatchNormalization())
 	alexnet.add(Activation('relu'))
 
 	# Layer 5
 	alexnet.add(ZeroPadding2D((1, 1)))
-	alexnet.add(Conv2D(1024, (3, 3), padding='same'))
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(Conv2D(1024, (3, 3), padding='same'),fvalue = freeze[5]))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[5]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(MaxPooling2D(pool_size=(2, 2)))
 
 	# Layer 6
 	alexnet.add(Flatten())
-	alexnet.add(Dense(3072))
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(Dense(3072),fvalue = freeze[6]))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[6]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(Dropout(0.5))
 
 	# Layer 7
-	alexnet.add(Dense(4096))
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(Dense(4096),fvalue = freeze[7]))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[7]))
 	alexnet.add(Activation('relu'))
 	alexnet.add(Dropout(0.5))
 
 	# Layer 8
-	alexnet.add(Dense(n_classes))
-	alexnet.add(BatchNormalization())
+	alexnet.add(freeze_layer(Dense(n_classes),fvalue = freeze[8]))
+	alexnet.add(freeze_layer(BatchNormalization(),fvalue = freeze[8]))
 	alexnet.add(Activation('softmax'))
 
 	if weights is not None:
 		alexnet.load_weights(weights)
 
+	alexnet.summary()
 	return alexnet
 
 def parse_args():
