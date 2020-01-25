@@ -20,8 +20,14 @@ from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 
+
+def freeze_layer(layer) : 
+    layer.trainable = False
+    return layer
+
+
 def alexnet_model(img_shape=(224, 224, 3), n_classes=10, l2_reg=0.,
-	weights=None):
+	weights=None,freeze = []):
 
 	# Initialize model
 	alexnet = Sequential()
@@ -29,6 +35,7 @@ def alexnet_model(img_shape=(224, 224, 3), n_classes=10, l2_reg=0.,
 	# Layer 1
 	alexnet.add(Conv2D(96, (11, 11), input_shape=img_shape,
 		padding='same', kernel_regularizer=l2(l2_reg)))
+    
 	alexnet.add(BatchNormalization())
 	alexnet.add(Activation('relu'))
 	alexnet.add(MaxPooling2D(pool_size=(2, 2)))
