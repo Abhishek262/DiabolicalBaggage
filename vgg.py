@@ -20,6 +20,16 @@ from keras.layers.core import Dense, Dropout, Flatten, Activation
 from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.regularizers import l2
 
+
+def freeze_layer(layer,fvalue) : 
+      
+    if(fvalue):
+        layer.trainable = False
+        
+    return layer
+
+
+ 
 def vgg16_model(img_shape=(224, 224, 3), n_classes=1000, l2_reg=0.,
 	weights=None):
 
@@ -34,7 +44,7 @@ def vgg16_model(img_shape=(224, 224, 3), n_classes=1000, l2_reg=0.,
 	vgg16.add(Conv2D(64, (3, 3), padding='same'))
 	vgg16.add(Activation('relu'))
 	vgg16.add(MaxPooling2D(pool_size=(2, 2)))
-
+    
 	# Layer 3 & 4
 	vgg16.add(ZeroPadding2D((1, 1)))
 	vgg16.add(Conv2D(128, (3, 3), padding='same'))
@@ -180,6 +190,7 @@ def vgg19_model(img_shape=(224, 224, 3), n_classes=1000, l2_reg=0.,
 		vgg19.load_weights(weights)
 
 	return vgg19
+        
 
 def parse_args():
 	"""
