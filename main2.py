@@ -1,18 +1,18 @@
-from vgg_imp import VGG16_model
+from vgg_imp import VGG16_model2
 from keras.optimizers import Adam
 opt = Adam(lr=0.001)
 from keras.losses import categorical_crossentropy
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.preprocessing.image import ImageDataGenerator
 
-model = VGG16_model()
+model = VGG16_model2()
 model.summary()
 
 model.compile(optimizer=opt, loss=categorical_crossentropy, metrics=['accuracy'])
 
 
 trdata = ImageDataGenerator()
-traindata = trdata.flow_from_directory(directory="D:\\train\\",target_size=(224,224))
+traindata = trdata.flow_from_directory(directory="Data/train",target_size=(224,224))
 #tsdata = ImageDataGenerator()
 #testdata = tsdata.flow_from_directory(directory="D:\\train\\", target_size=(224,224))
 
