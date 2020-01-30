@@ -12,3 +12,10 @@ https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network
 * Model.py: Sets up the model with the mobilenet image classification architecuture.
 * Training.py: Trains the model, with specified dataset.
 
+## Parts
+* Firearm classifier
+* Other objects such as knives, laptops, shurikens, razor blades,etc
+
+## Final Dataset
+*Firearm classifier : Cropped out images of guns vs empty bag space
+
