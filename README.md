@@ -19,3 +19,5 @@ https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network
 ## Final Dataset
 *Firearm classifier : Cropped out images of guns vs empty bag space
 
+##To-do 
+Perform image segmentation over the dataset to produce actual results
